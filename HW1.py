@@ -34,12 +34,12 @@ class Portfolio(object):
         self.cash = self.cash - self.price * self.share
         self.transaction.append(str(share) + " shares of " + str(self.symbol) + " stock is bought. Balance: $" + str(round(self.cash,1)))
 
-    #def sellStock(self, symbol , share ):
-    #    self.share = share
-    #    self.symbol = symbol
-    #    self.first_price = self.stock.price
-    #    self.cash = self.cash + self.first_price * random.uniform(0.5, 1.5) * self.share
-    #    self.transaction.append(str(share) + " shares of " + str(self.symbol) + " stock is sold. Balance: $" + str(round(self.cash,1)))
+    def sellStock(self, symbol , share ):
+        self.share = share
+        self.symbol = symbol
+        self.first_price = self.price
+        self.cash = self.cash + self.first_price * random.uniform(0.5, 1.5) * self.share
+        self.transaction.append(str(share) + " shares of " + str(self.symbol) + " stock is sold. Balance: $" + str(round(self.cash,1)))
 
     def buyMutualFund(self,share,mutualfunds):
         self.share = share
@@ -69,7 +69,7 @@ portfolio.buyMutualFund(10.3, mf1)  #Buys 10.3 shares of "BRT"
 portfolio.buyMutualFund(2, mf2)  #Buys 2 shares of "GHT"
 
 portfolio.sellMutualFund("BRT", 3)
-#portfolio.sellStock("HFH", 1)
+portfolio.sellStock("HFH", 1)
 portfolio.withdrawCash(50)
 
 portfolio.history()
