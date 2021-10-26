@@ -27,12 +27,17 @@ class Portfolio(object):
         self.cash = self.cash - amt
         self.transaction.append("$" + str(amt) + " cash is withdrawn. Balance: $" + str(round(self.cash,1)))
 
-    def buyStock(self, share, stock ):
+        def buyStock(self, share, stock ):
         self.share = share
         self.symbol= stock.symbol
         self.price = stock.price
         self.cash = self.cash - self.price * self.share
         self.transaction.append(str(share) + " shares of " + str(self.symbol) + " stock is bought. Balance: $" + str(round(self.cash,1)))
+        if stock.symbol in self.stock:
+            self.stock[stock.symbol] = self.stock[stock.symbol] + share
+        else:
+            self.stock[stock.symbol] = share
+
 
     def sellStock(self, symbol , share ):
         self.share = share
@@ -40,21 +45,40 @@ class Portfolio(object):
         self.first_price = self.price
         self.cash = self.cash + self.first_price * random.uniform(0.5, 1.5) * self.share
         self.transaction.append(str(share) + " shares of " + str(self.symbol) + " stock is sold. Balance: $" + str(round(self.cash,1)))
+        if symbol in self.stock:
+            self.stock[symbol] = self.stock[symbol] - share
+        else:
+            self.stock[symbol] = 0
 
     def buyMutualFund(self,share,mutualfunds):
         self.share = share
         self.symbol = mutualfunds.symbol
         self.cash = self.cash - self.share
         self.transaction.append(str(share) + " shares of " + str(self.symbol) + " mutualfund is bought. Balance: $" + str(round(self.cash,1)))
+        if mutualfunds.symbol in self.mutualfunds:
+            self.mutualfunds[mutualfunds.symbol] = self.mutualfunds[mutualfunds.symbol] + share
+        else:
+            self.mutualfunds[mutualfunds.symbol] = share
 
     def sellMutualFund(self,symbol,share):
         self.share = share
         self.symbol = symbol
         self.cash = self.cash + self.share * random.uniform(0.9, 1.2)
         self.transaction.append(str(share) + " shares of " + str(self.symbol) + " mutualfund is sold. Balance: $" + str(round(self.cash,1)))
+        if symbol in self.mutualfunds:
+            self.mutualfunds[symbol] = self.mutualfunds[symbol] - share
+        else:
+            self.mutualfunds[symbol] = share
 
     def history(self):
         print( " " + "\n ".join(self.transaction))
+
+    def __str__(self):
+        return "Cash balance: " + str(round(self.cash,2)) +"$" + "\n" + "Stock Balance: " + str(self.stock) + "\n" + "Mutual Fund Balance: " + str(
+            self.mutualfunds)
+
+    def __repr__(self):
+        return self.__str__()
 
 portfolio = Portfolio()  #Creates a new portfolio
 
@@ -73,3 +97,4 @@ portfolio.sellStock("HFH", 1)
 portfolio.withdrawCash(50)
 
 portfolio.history()
+print(portfolio)
