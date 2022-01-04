@@ -16,6 +16,9 @@ from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 # In[2]:
@@ -48,11 +51,23 @@ X_train, X_test, y_train, y_test = train_test_split(x, y, random_state=0, train_
 # In[5]:
 
 
+#Gaussian Naive Bayes
 model = GaussianNB() 
 model.fit(X_train, y_train) 
 y_hat = model.predict(X_test)
 
 accuracy_score(y_test, y_hat)
+
+
+# In[6]:
+
+
+mat = confusion_matrix(y_test, y_hat)
+fig, ax = plt.subplots(figsize=(10,10))
+sns.heatmap(mat, square=True, annot=True, cbar=False,fmt='d')
+sns.set(font_scale=1.1)
+plt.xlabel('predicted value',fontsize=14)
+plt.ylabel('true value',fontsize=14);
 
 
 # In[7]:
@@ -68,7 +83,7 @@ dicts = dict(zip(data.columns, kBestScores))
 sort_dicts = sorted(dicts.items(), key=lambda x: x[1], reverse=True)
 
 
-# In[9]:
+# In[8]:
 
 
 print(sort_dicts)
@@ -81,7 +96,7 @@ X = data[['D2026', 'D2027', 'D2029', 'D2021', 'D2011', 'D2030', 'D2022', 'D2028'
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0, train_size=0.70, test_size=0.30)
 
 
-# In[10]:
+# In[9]:
 
 
 #Gaussian Naive Bayes
@@ -92,7 +107,7 @@ y_hat = model1.predict(X_test)
 accuracy_score(y_test, y_hat)
 
 
-# In[11]:
+# In[10]:
 
 
 #Decision Tree
@@ -103,7 +118,7 @@ y_hat = model2.predict(X_test)
 accuracy_score(y_test, y_hat)
 
 
-# In[12]:
+# In[11]:
 
 
 #RandomForest
@@ -112,4 +127,21 @@ model3.fit(X_train, y_train)
 y_hat = model3.predict(X_test)
 
 accuracy_score(y_test, y_hat)
+
+
+# In[12]:
+
+
+mat = confusion_matrix(y_test, y_hat)
+fig, ax = plt.subplots(figsize=(10,10))
+sns.heatmap(mat, square=True, annot=True, cbar=False,fmt='d')
+sns.set(font_scale=1.1)
+plt.xlabel('predicted value',fontsize=14)
+plt.ylabel('true value',fontsize=14);
+
+
+# In[ ]:
+
+
+
 
